@@ -40,6 +40,7 @@ deploy to surge:
 
 
 test deployment:
+  image: alpine
   stage: test deploy
   script:
     - curl "http://delicate-cicd.surge.sh" | tac | tac | grep -q "New York"
