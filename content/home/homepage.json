@@ -2,17 +2,17 @@
   "title": "Home",
   "content": "intro.md",
   "gallery": [{
-    "title": "React Context",
+    "title": "New York",
     "copy": "For global styles.",
     "image": "../images/gallery/react-context.jpg"
   },
   {
-    "title": "Page Transitions",
+    "title": "Los Angeles",
     "copy": "Component-based for easy usage.",
     "image": "../images/gallery/page-transitions.jpg"
   },
   {
-    "title": "Intersection Observer",
+    "title": "Washington",
     "copy": "Including a polyfill for Safari.",
     "image": "../images/gallery/intersection-observer.jpg"
   }]
