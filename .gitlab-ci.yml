@@ -3,10 +3,11 @@ image: node:12
 stages:
   - build
   - test
+  - deploy
 
 build website:
-  - stage: build
-  - script:
+  stage: build
+  script:
     - npm install
     - npm install -g gatsby-cli
     - gatsby build
@@ -15,14 +16,14 @@ build website:
       - ./public
 
 test artifacts:
-  - image: alpine
-  - stage: test
-  - script:
+  image: alpine
+  stage: test
+  script:
     - grep "Gatsby" ./public/index.html
 
 test website:
-  - stage: test
-  - script:
+  stage: test
+  script:
     - npm install
     - npm install -g gatsby-cli
     - gatsby build
@@ -31,9 +32,9 @@ test website:
     - curl "http://localhost:9000" | tac| tac | grep -q "Gatsby"
 
 deply website to surge:
-  - stage: deploy
-  - script: 
+  stage: deploy
+  script: 
     - npm install -g surge
     - surge --project ./public --domain delicate-cicd.surge.sh
-    
+
 
