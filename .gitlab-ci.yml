@@ -43,4 +43,5 @@ test deployment:
   image: alpine
   stage: test deploy
   script:
+    - apk add curl
     - curl "http://delicate-cicd.surge.sh" | tac | tac | grep -q "New York"
