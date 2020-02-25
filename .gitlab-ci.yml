@@ -4,6 +4,7 @@ stages:
   - build
   - test
   - deploy
+  - test deploy
 
 build website:
   stage: build
@@ -31,10 +32,14 @@ test website:
     - sleep 3
     - curl "http://localhost:9000" | tac| tac | grep -q "Gatsby"
 
-deply website to surge:
+deploy to surge:
   stage: deploy
   script: 
     - npm install -g surge
     - surge --project ./public --domain delicate-cicd.surge.sh
 
 
+test deployment:
+  stage: test deploy
+  script:
+    - curl "http://delicate-cicd.surge.sh" | tac | tac | grep -q "New York"
