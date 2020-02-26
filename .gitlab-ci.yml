@@ -3,8 +3,9 @@ image: node:12
 stages:
   - build
   - test
-  - deploy
-  - test deploy
+  - deploy staging
+  - deploy production
+  - test production
   - update cache
 
 
@@ -69,8 +70,11 @@ test website:
 
 
 
-deploy to surge:
-  stage: deploy
+deploy to staging:
+  stage: deploy staging
+  environment:
+    name: staging
+    url: http://delicate-cicd-staged.surge.sh
   cache: {}
   script: 
     - npm install -g surge
@@ -80,9 +84,24 @@ deploy to surge:
 
 
 
-test deployment:
+
+deploy to production:
+  stage: deploy production
+  environment:
+    name: production
+    url: http://delicate-cicd.surge.sh
+  cache: {}
+  script: 
+    - npm install -g surge
+    - surge --project ./public --domain delicate-cicd.surge.sh
+  except:
+    - schedules
+
+
+
+test production:
   image: alpine
-  stage: test deploy
+  stage: test production
   cache: {}
   script:
     - apk add curl
