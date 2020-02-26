@@ -11,6 +11,9 @@ const Nav = () => (
       <li>
         <a href="https://github.com/abyabrkal/gatsby-cicd">GitHub</a>
       </li>
+      <li>
+        <div>Version: %%VERSION%%</div>
+      </li>
     </ul>
   </Container>
 );
