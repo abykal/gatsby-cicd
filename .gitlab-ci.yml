@@ -62,11 +62,11 @@ deploy to staging:
   stage: deploy staging
   environment:
     name: staging
-    url: http://delicatecicd-staged.surge.sh
+    url: http://$STAGING_URL
   cache: {}
   script: 
     - npm install -g surge
-    - surge --project ./public --domain delicatecicd-staged.surge.sh
+    - surge --project ./public --domain $STAGING_URL
   except:
     - schedules
 
@@ -77,11 +77,11 @@ deploy to production:
   stage: deploy production
   environment:
     name: production
-    url: http://delicate-cicd.surge.sh
+    url: http://$PRODUCTION_URL
   cache: {}
   script: 
     - npm install -g surge
-    - surge --project ./public --domain delicate-cicd.surge.sh
+    - surge --project ./public --domain $PRODUCTION_URL
   except:
     - schedules
 
