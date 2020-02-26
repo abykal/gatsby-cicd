@@ -15,18 +15,6 @@ cache:
     - node_modules/
   policy: pull
 
-update the cache:
-  stage: update cache
-  script:
-    - npm install
-  cache:
-    key: ${CI_COMMIT_REF_SLUG}
-    paths:
-      - node_modules/
-    policy: push
-  only:
-    - schedules
-
 
 
 build website:
@@ -74,11 +62,11 @@ deploy to staging:
   stage: deploy staging
   environment:
     name: staging
-    url: http://delicate-cicd-staged.surge.sh
+    url: http://delicatecicd-staged.surge.sh
   cache: {}
   script: 
     - npm install -g surge
-    - surge --project ./public --domain delicate-cicd.surge.sh
+    - surge --project ./public --domain delicatecicd-staged.surge.sh
   except:
     - schedules
 
@@ -107,4 +95,18 @@ test production:
     - apk add curl
     - curl -s "http://delicate-cicd.surge.sh" | tac | tac | grep -q "New York"
   except:
+    - schedules
+
+
+
+update the cache:
+  stage: update cache
+  script:
+    - npm install
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - node_modules/
+    policy: push
+  only:
     - schedules
