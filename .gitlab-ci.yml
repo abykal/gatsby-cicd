@@ -79,6 +79,8 @@ deploy to production:
     name: production
     url: http://$PRODUCTION_URL
   cache: {}
+  when: manual
+  allow_failure: false
   script: 
     - npm install -g surge
     - surge --project ./public --domain $PRODUCTION_URL
