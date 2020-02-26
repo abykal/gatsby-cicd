@@ -5,11 +5,27 @@ stages:
   - test
   - deploy
   - test deploy
+  - update cache
+
 
 cache:
   key: ${CI_COMMIT_REF_SLUG}
   paths:
     - node_modules/
+  policy: pull
+
+update the cache:
+  stage: update cache
+  script:
+    - npm install
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - node_modules/
+    policy: push
+  only:
+    - schedules
+
 
 
 build website:
@@ -23,13 +39,20 @@ build website:
   artifacts:
     paths:
       - ./public
+  except:
+    - schedules
+
 
 
 test artifacts:
   image: alpine
   stage: test
+  cache: {}
   script:
     - grep "Gatsby" ./public/index.html
+  except:
+    - schedules
+
 
 
 test website:
@@ -41,19 +64,29 @@ test website:
     - gatsby serve &
     - sleep 3
     - curl "http://localhost:9000" | tac| tac | grep -q "Gatsby"
+  except:
+    - schedules
+
 
 
 deploy to surge:
   stage: deploy
+  cache: {}
   script: 
     - npm install -g surge
     - surge --project ./public --domain delicate-cicd.surge.sh
+  except:
+    - schedules
+
 
 
 test deployment:
   image: alpine
   stage: test deploy
+  cache: {}
   script:
     - apk add curl
     - curl -s "http://delicate-cicd.surge.sh" | tac | tac | grep -q "New York"
     - curl -s "http://delicate-cicd.surge.sh" | grep -q "$CI_COMMIT_SHORT_SHA"
+  except:
+    - schedules
