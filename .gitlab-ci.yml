@@ -87,6 +87,5 @@ test deployment:
   script:
     - apk add curl
     - curl -s "http://delicate-cicd.surge.sh" | tac | tac | grep -q "New York"
-    - curl -s "http://delicate-cicd.surge.sh" | grep -q "$CI_COMMIT_SHORT_SHA"
   except:
     - schedules

@@ -14,6 +14,9 @@ const Nav = () => (
       <li>
         <div>Version: %%VERSION%%</div>
       </li>
+      <li>
+      <a href="https://gitlab.com/abykal/gatsby-cicd/-/commits/master"><img alt="pipeline status" src="https://gitlab.com/abykal/gatsby-cicd/badges/master/pipeline.svg" /></a>
+      </li>
     </ul>
   </Container>
 );
