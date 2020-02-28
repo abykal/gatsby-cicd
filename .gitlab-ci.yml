@@ -16,9 +16,16 @@ cache:
   policy: pull
 
 
+variables:
+  STAGING_URL: instazone-staging.surge.sh
+  PRODUCTION_URL: instazone.surge.sh
+
 
 build website:
   stage: build
+  only:
+    - master
+    - merge_requests
   script:
     - echo ${CI_COMMIT_SHORT_SHA}
     - npm install
@@ -36,6 +43,9 @@ build website:
 test artifacts:
   image: alpine
   stage: test
+  only:
+    - master
+    - merge_requests
   cache: {}
   script:
     - grep "Gatsby" ./public/index.html
@@ -46,6 +56,9 @@ test artifacts:
 
 test website:
   stage: test
+  only:
+    - master
+    - merge_requests
   script:
     - npm install
     - npm install -g gatsby-cli
