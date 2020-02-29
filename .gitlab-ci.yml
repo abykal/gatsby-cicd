@@ -3,6 +3,7 @@ image: node:12
 stages:
   - build
   - test
+  - deploy review
   - deploy staging
   - deploy production
   - test production
@@ -13,12 +14,11 @@ cache:
   key: ${CI_COMMIT_REF_SLUG}
   paths:
     - node_modules/
-  policy: pull
 
 
 variables:
-  STAGING_URL: instazone-staging.surge.sh
-  PRODUCTION_URL: instazone.surge.sh
+  STAGING_URL: delicate-cicd-stg.surge.sh
+  PRODUCTION_URL: delicate-cicd.surge.sh
 
 
 build website:
@@ -27,7 +27,7 @@ build website:
     - master
     - merge_requests
   script:
-    - echo ${CI_COMMIT_SHORT_SHA}
+    - echo $CI_COMMIT_SHORT_SHA
     - npm install
     - npm install -g gatsby-cli
     - gatsby build
@@ -68,6 +68,18 @@ test website:
     - curl "http://localhost:9000" | tac| tac | grep -q "Gatsby"
   except:
     - schedules
+
+
+deploy review:
+  stage: deploy review
+  only: 
+    - merge_requests
+  environment:
+    name: review/$CI_COMMIT_REF_NAME
+    url: https://delicate-cicd-$CI_ENVIRONMENT_SLUG.surge.sh
+  script:
+    - npm install -g surge
+    - surge --project ./public --domain delicate-cicd-$CI_ENVIRONMENT_SLUG.surge.sh
 
 
 
