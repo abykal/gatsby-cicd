@@ -77,9 +77,26 @@ deploy review:
   environment:
     name: review/$CI_COMMIT_REF_NAME
     url: https://delicate-cicd-$CI_ENVIRONMENT_SLUG.surge.sh
+    on_stop: stop review
   script:
     - npm install -g surge
     - surge --project ./public --domain delicate-cicd-$CI_ENVIRONMENT_SLUG.surge.sh
+
+
+
+stop review:
+  stage: deply review
+  only: 
+    - merge_requests
+  variables:
+    GIT_STRATEGY: none
+  script:
+    - npm install -g surge
+    - surge teardown delicate-cicd-$CI_ENVIRONMENT_SLUG.surge.sh
+  when: manual
+  environment:
+    name: review/$CI_COMMIT_REF_NAME
+    action: stop
 
 
 
