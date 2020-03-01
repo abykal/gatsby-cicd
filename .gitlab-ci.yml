@@ -85,7 +85,7 @@ deploy review:
 
 
 stop review:
-  stage: deply review
+  stage: deploy review
   only: 
     - merge_requests
   variables:
